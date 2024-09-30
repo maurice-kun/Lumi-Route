@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Lumi Route</string>
+    <string name="connect_helmet">Connecter le casque</string>
+    <string name="scan_for_devices">Rechercher des appareils</string>
+    <string name="pair">Appairer</string>
+    <string name="back">Retour</string>
+    <string name="color_settings">Paramètres de couleur</string>
+    <string name="left_light_color">Couleur de la lumière gauche</string>
+    <string name="right_light_color">Couleur de la lumière droite</string>
+    <string name="give_feedback">Donnez votre avis !</string>
+    <string name="submit">Soumettre</string>
+    <string name="rate_experience">Évaluer l\'expérience</string>
+    <string name="start_navigation">Démarrer la navigation</string>
+    <string name="settings">Paramètres</string>
+    <string name="feedback">Retour d\'information</string>
+    <string name="light_settings">Paramètres de lumière</string>
+    <string name="light_frequency">Fréquence de la lumière</string>
+    <string name="light_intensity">Intensité de la lumière</string>
+    <string name="language_settings">Paramètres de langue</string>
+    <string name="japanese">Japonais</string>
+    <string name="french">Français</string>
+    <string name="german">Allemand</string>
+    <string name="english">Anglais</string>
+    <string name="end_navigation">Terminer la navigation</string>
+    <string name="navigation">Navigation</string>
+    <string name="set_destination">Définir la destination</string>
+    <string name="destination">Destination</string>
+    <string name="change_mode">Changer de mode</string>
+    <string name="language">Langue</string>
+</resources>
