@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadLocale() {
         val sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val language = sharedPref.getString("My_Lang", "")
-        if (language != null && language.isNotEmpty()) {
+        if (!language.isNullOrEmpty()) {
             val locale = Locale(language)
             Locale.setDefault(locale)
 

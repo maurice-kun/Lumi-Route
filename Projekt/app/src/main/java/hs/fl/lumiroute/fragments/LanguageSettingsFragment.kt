@@ -69,8 +69,10 @@ class LanguageSettingsFragment : Fragment() {
         editor.putString("My_Lang", languageCode)
         editor.apply()
 
-        requireActivity().resources.updateConfiguration(config, requireActivity().resources.displayMetrics)
+        requireActivity().resources.updateConfiguration(
+            config,
+            requireActivity().resources.displayMetrics
+        )
         requireActivity().recreate()
     }
 }
-
