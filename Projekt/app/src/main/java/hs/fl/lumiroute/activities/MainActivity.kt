@@ -1,8 +1,8 @@
 package hs.fl.lumiroute.activities
 
-import android.os.Bundle
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,13 +15,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Sprache laden und anwenden, bevor das Layout gesetzt wird
+        // Load language settings before setting the layout
         loadLocale()
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        // WindowInsetsListener für Systembars
+        // WindowInsetsListener for system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Methode zum Laden der gespeicherten Sprache
+    // Method to load the saved language
     private fun loadLocale() {
         val sharedPref = getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val language = sharedPref.getString("My_Lang", "")

@@ -20,36 +20,81 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnLeftLightColor"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/redValue"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/red"
-        android:text="@string/left_light_color"
-        android:textColor="@android:color/white"
-        app:cornerRadius="5dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textColorSettings" />
 
-    <Button
-        android:id="@+id/btnRightLightColor"
-        android:layout_width="0dp"
+    <SeekBar
+        android:id="@+id/seekBarRed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/green"
-        android:text="@string/right_light_color"
-        android:textColor="@android:color/white"
-        app:cornerRadius="5dp"
+        android:layout_marginTop="56dp"
+        android:max="255"
+        android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLeftLightColor" />
+        app:layout_constraintTop_toBottomOf="@id/redValue" />
+
+    <TextView
+        android:id="@+id/greenValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarRed" />
+
+    <SeekBar
+        android:id="@+id/seekBarGreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="255"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/greenValue" />
+
+    <TextView
+        android:id="@+id/blueValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarGreen" />
+
+    <SeekBar
+        android:id="@+id/seekBarBlue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="255"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/blueValue" />
+
+    <ImageView
+        android:id="@+id/colorDemo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarBlue" />
 
     <Button
         android:id="@+id/btnBack"
@@ -64,6 +109,6 @@
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRightLightColor" />
+        app:layout_constraintTop_toBottomOf="@id/colorDemo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
