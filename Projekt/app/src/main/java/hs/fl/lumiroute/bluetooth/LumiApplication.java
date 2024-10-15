@@ -2,11 +2,11 @@ package hs.fl.lumiroute.bluetooth;
 
 import android.app.Application;
 
-public class MyApplication extends Application {
-    private static MyApplication sInstance;
+public class LumiApplication extends Application {
+    private static LumiApplication sInstance;
     ConnectedThread connectedThread = null;
 
-    public static MyApplication getApplication() {
+    public static LumiApplication getApplication() {
         return sInstance;
     }
 

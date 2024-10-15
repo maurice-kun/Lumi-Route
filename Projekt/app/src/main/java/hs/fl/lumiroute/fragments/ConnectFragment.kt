@@ -30,7 +30,6 @@ import hs.fl.lumiroute.R
 import hs.fl.lumiroute.bluetooth.ConnectedClass
 import hs.fl.lumiroute.bluetooth.ConnectedThread
 import hs.fl.lumiroute.bluetooth.ConnectThread
-import hs.fl.lumiroute.bluetooth.MyApplication
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -70,8 +69,8 @@ class ConnectFragment : Fragment() {
 
         // Initialize UI elements
         btDevices = view.findViewById(R.id.textConnectHelmet)
-        connectToDevice = view.findViewById(R.id.btnScanForDevices)
-        searchDevices = view.findViewById(R.id.btnPair)
+        connectToDevice = view.findViewById(R.id.btnPair)
+        searchDevices = view.findViewById(R.id.btnScanForDevices)
         backButton = view.findViewById(R.id.btnBack)
 
         // Initialize Bluetooth manager and adapter

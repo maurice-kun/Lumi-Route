@@ -89,7 +89,7 @@ public class ConfigureLed extends AppCompatActivity {
         tvProgressLabelGreen.setText("Green: " + progress);
         tvProgressLabelBlue.setText("Blue: " + progress);
 
-        connectedThread = MyApplication.getApplication().getCurrentConnectedThread();
+        connectedThread = LumiApplication.getApplication().getCurrentConnectedThread();
         Log.d(TAG, "");
     }
 }

@@ -24,7 +24,6 @@ import hs.fl.lumiroute.R
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.util.UUID
 
@@ -233,7 +232,7 @@ class MainActivity : AppCompatActivity() {
 
         //Next activity to configure the RGB LED
         nextActivity.setOnClickListener {
-            MyApplication.getApplication().setupConnectedThread(connectedThread)
+            LumiApplication.getApplication().setupConnectedThread(connectedThread)
             val intent = Intent(
                 this@MainActivity,
                 ConfigureLed::class.java
