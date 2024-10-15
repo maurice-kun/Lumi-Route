@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Sprache laden und anwenden, bevor das Layout gesetzt wird
+        // Sprache laden und anwenden, bevor das Layout gesetzt wird.
         loadLocale()
 
         enableEdgeToEdge()
