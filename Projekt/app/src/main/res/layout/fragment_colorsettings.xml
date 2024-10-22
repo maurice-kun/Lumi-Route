@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
+    <!-- Titel -->
     <TextView
         android:id="@+id/textColorSettings"
         android:layout_width="wrap_content"
@@ -18,25 +19,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Logo-Platzhalter -->
     <ImageView
         android:id="@+id/logoPlaceholder"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/app_logo"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/logo_motorcycle_helmet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textColorSettings" />
 
+    <!-- Roter Wert -->
     <TextView
         android:id="@+id/redValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
-        android:text="@string/red"
+        android:text="Red: 0"
         android:textColor="@color/text_white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,13 +59,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/redValue" />
 
+    <!-- Grüner Wert -->
     <TextView
         android:id="@+id/greenValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="@string/green"
+        android:text="Green: 0"
         android:textColor="@color/text_white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,13 +87,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/greenValue" />
 
+    <!-- Blauer Wert -->
     <TextView
         android:id="@+id/blueValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="@string/blue"
+        android:text="Blue: 0"
         android:textColor="@color/text_white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,17 +115,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/blueValue" />
 
+    <!-- Farbvorschau -->
     <ImageView
         android:id="@+id/colorDemo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
+        android:layout_marginTop="24dp"
+        android:background="#FF000000"
         android:contentDescription="@string/color_demo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seekBarBlue" />
 
+    <!-- Zurück-Button -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="0dp"
@@ -129,11 +135,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="@color/black"
         android:minHeight="48dp"
         android:text="@string/back"
         android:textColor="@color/text_white"
         app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/colorDemo" />

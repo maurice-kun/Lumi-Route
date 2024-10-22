@@ -1,0 +1,26 @@
+<!-- res/drawable/logo_motorcycle_helmet.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Kantiger Helm -->
+    <path android:fillColor="#FFFFFF"
+    android:pathData="M60,10 L30,30 L20,60 L30,90 L60,110 L90,90 L100,60 L90,30 Z" />
+
+    <!-- Visier -->
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M40,50 L80,50 L80,60 L40,60 Z" />
+
+    <!-- Linke LED (als Pfad definiert) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M25,60 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+
+    <!-- Rechte LED (als Pfad definiert) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M95,60 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+</vector>

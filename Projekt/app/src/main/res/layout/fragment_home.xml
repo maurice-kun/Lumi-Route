@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
+    <!-- Titel -->
     <TextView
         android:id="@+id/textAppName"
         android:layout_width="wrap_content"
@@ -18,18 +19,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Logo-Platzhalter -->
     <ImageView
         android:id="@+id/logoPlaceholder"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/app_logo"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/logo_motorcycle_helmet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textAppName" />
 
+    <!-- Start Navigation Button -->
     <Button
         android:id="@+id/btnStartNavigation"
         android:layout_width="0dp"
@@ -46,6 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoPlaceholder" />
 
+    <!-- Connect Helmet Button -->
     <Button
         android:id="@+id/btnConnectHelmet"
         android:layout_width="0dp"
@@ -62,6 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnStartNavigation" />
 
+    <!-- Settings Button -->
     <Button
         android:id="@+id/btnSettings"
         android:layout_width="0dp"
@@ -78,6 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnConnectHelmet" />
 
+    <!-- Feedback Button -->
     <Button
         android:id="@+id/btnFeedback"
         android:layout_width="0dp"
@@ -94,28 +99,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnSettings" />
 
-    <TextView
-        android:id="@+id/textUniversity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/project_university"
-        android:textColor="@color/text_white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/universityLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    <!-- Hochschullogo -->
     <ImageView
         android:id="@+id/universityLogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="64dp"
         android:contentDescription="@string/university_logo"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/logo_hs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnFeedback" />
+
+    <!-- Hochschultext -->
+    <TextView
+        android:id="@+id/textUniversity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/project_university"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/universityLogo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
