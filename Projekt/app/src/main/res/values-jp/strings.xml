@@ -27,4 +27,7 @@
     <string name="destination">目的地</string>
     <string name="change_mode">モードを変更</string>
     <string name="language">言語</string>
+    <string name="blue">Blue</string>
+    <string name="green">Blue</string>
+    <string name="red">Blue</string>
 </resources>

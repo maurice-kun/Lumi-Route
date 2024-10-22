@@ -27,4 +27,7 @@
     <string name="destination">Ziel</string>
     <string name="change_mode">Modus wechseln</string>
     <string name="language">Sprache</string>
+    <string name="blue">Blue</string>
+    <string name="green">Blue</string>
+    <string name="red">Blue</string>
 </resources>

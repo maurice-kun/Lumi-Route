@@ -27,4 +27,7 @@
     <string name="destination">Destination</string>
     <string name="change_mode">Changer de mode</string>
     <string name="language">Langue</string>
+    <string name="blue">Blue</string>
+    <string name="green">Blue</string>
+    <string name="red">Blue</string>
 </resources>
