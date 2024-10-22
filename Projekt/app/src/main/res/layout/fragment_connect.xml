@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context=".fragments.ConnectFragment">
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/textConnectHelmet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/connect_helmet"
+        android:layout_marginTop="16dp"
+        android:text="Select a device to connect"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/deviceListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnScanForDevices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textConnectHelmet" />
 
     <Button
         android:id="@+id/btnScanForDevices"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="200dp"
         android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/scan_for_devices"
+        android:backgroundTint="@color/blue"
+        android:text="Scan for Devices"
         android:textColor="@android:color/white"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textConnectHelmet" />
 
@@ -43,9 +51,10 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/blue"
-        android:text="@string/pair"
+        android:backgroundTint="@color/black"
+        android:text="Pair Device"
         android:textColor="@android:color/white"
+        android:visibility="gone"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,12 +67,12 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/gray"
-        android:text="@string/back"
-        android:textColor="@android:color/black"
+        android:backgroundTint="@color/black"
+        android:text="Back"
+        android:textColor="@android:color/white"
         app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnPair" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

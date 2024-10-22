@@ -17,13 +17,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import hs.fl.lumiroute.R
@@ -47,20 +49,24 @@ class ConnectFragment : Fragment() {
     private var handler: Handler? = null
 
     // UI elements
-    private lateinit var btDevices: TextView
-    private lateinit var connectToDevice: Button
-    private lateinit var searchDevices: Button
+    private lateinit var deviceListView: ListView
+    private lateinit var connectToDeviceButton: Button
+    private lateinit var searchDevicesButton: Button
     private lateinit var backButton: Button
+    private val devices = ArrayList<BluetoothDevice>()
+    private val deviceList = ArrayList<String>()
+    private lateinit var adapter: ArrayAdapter<String>
 
     // Constants
     companion object {
-        private const val TAG = "FrugalLogs"
+        private const val TAG = "ConnectFragment"
         private const val REQUEST_ENABLE_BT = 1
-        private const val ERROR_READ = 0 // used in bluetooth handler to identify message update
+        private const val REQUEST_PERMISSIONS = 2
+        private const val ERROR_READ = 0 // used in Bluetooth handler to identify message update
     }
 
-    @SuppressLint("CheckResult")
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,9 +74,9 @@ class ConnectFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_connect, container, false)
 
         // Initialize UI elements
-        btDevices = view.findViewById(R.id.textConnectHelmet)
-        connectToDevice = view.findViewById(R.id.btnPair)
-        searchDevices = view.findViewById(R.id.btnScanForDevices)
+        deviceListView = view.findViewById(R.id.deviceListView)
+        connectToDeviceButton = view.findViewById(R.id.btnPair)
+        searchDevicesButton = view.findViewById(R.id.btnScanForDevices)
         backButton = view.findViewById(R.id.btnBack)
 
         // Initialize Bluetooth manager and adapter
@@ -80,17 +86,19 @@ class ConnectFragment : Fragment() {
 
         Log.d(TAG, "Begin Execution")
 
+        // Set up the list adapter
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, deviceList)
+        deviceListView.adapter = adapter
+        deviceListView.visibility = View.GONE
+        connectToDeviceButton.visibility = View.GONE
+
         // Handler to update UI in case of an error connecting to the BT device
         handler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     ERROR_READ -> {
                         val arduinoMsg = msg.obj.toString() // Read message from Arduino
-
-                        Toast.makeText(
-                            requireContext(), arduinoMsg,
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(requireContext(), arduinoMsg, Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -99,10 +107,7 @@ class ConnectFragment : Fragment() {
         // Create an Observable for Bluetooth connection
         val connectToBTObservable =
             Observable.create { emitter: ObservableEmitter<ConnectedClass?> ->
-                Log.d(
-                    TAG,
-                    "Calling connectThread class"
-                )
+                Log.d(TAG, "Calling connectThread class")
                 val connectThread = ConnectThread(
                     arduinoBTModule,
                     arduinoUUID,
@@ -111,55 +116,44 @@ class ConnectFragment : Fragment() {
                 connectThread.run()
                 // Check if Socket connected
                 if (connectThread.mmSocket.isConnected) {
-                    Log.d(
-                        TAG,
-                        "Calling ConnectedThread class"
-                    )
+                    Log.d(TAG, "Calling ConnectedThread class")
                     connectedThread = ConnectedThread(connectThread.mmSocket)
                     if (connectedThread != null && connectedThread!!.mmInStream != null) {
                         val connected = ConnectedClass()
                         connected.isConnected = true
                         emitter.onNext(connected)
-                        // MyApplication.setupConnectedThread();
                     }
+                } else {
+                    Log.e(TAG, "Failed to connect to Bluetooth device")
+                    emitter.onError(Throwable("Failed to connect to Bluetooth device"))
                 }
                 emitter.onComplete()
             }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Find all Paired devices
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        searchDevices.setOnClickListener {
-            // Check if the phone supports BT
+        // Set up button listeners
+        searchDevicesButton.setOnClickListener {
             if (bluetoothAdapter == null) {
-                // Device doesn't support Bluetooth
-                Log.d(TAG, "Device doesn't support Bluetooth")
-                Toast.makeText(
-                    requireContext(),
-                    "Device doesn't support Bluetooth",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(requireContext(), "Bluetooth is not available", Toast.LENGTH_LONG)
+                    .show()
+                Log.e(TAG, "Bluetooth is not available when search button clicked.")
             } else {
-                Log.d(TAG, "Device supports Bluetooth")
-                // Check if Bluetooth is enabled
-                if (!bluetoothAdapter.isEnabled) {
-                    Log.d(TAG, "Bluetooth is disabled")
-                    val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                    enableBluetoothLauncher.launch(enableBtIntent)
-                } else {
-                    Log.d(TAG, "Bluetooth is enabled")
-                    // Proceed to check for permissions
-                    checkBluetoothPermissionsAndListDevices(bluetoothAdapter)
-                }
+                Log.d(TAG, "Search button clicked, checking permissions...")
+                checkPermissionsAndListDevices(bluetoothAdapter)
             }
-            Log.d(TAG, "Search Devices Button Pressed")
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Call the observable to connect to the HC-05
-        // If it connects, the button to configure the LED will be enabled
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        connectToDevice.setOnClickListener {
+        deviceListView.setOnItemClickListener { _, _, position, _ ->
+            arduinoBTModule = devices[position]
+            Toast.makeText(
+                requireContext(),
+                "Selected: ${arduinoBTModule?.name}",
+                Toast.LENGTH_SHORT
+            ).show()
+            Log.d(TAG, "Device selected: ${arduinoBTModule?.name}")
+            connectToDeviceButton.visibility = View.VISIBLE
+        }
+
+        connectToDeviceButton.setOnClickListener {
             if (arduinoBTModule != null) {
                 connectToBTObservable
                     .subscribeOn(Schedulers.io())
@@ -167,16 +161,15 @@ class ConnectFragment : Fragment() {
                     .subscribe(
                         { connectedToBTDevice ->
                             if (connectedToBTDevice?.isConnected == true) {
-                                // Connection successful
                                 Toast.makeText(
                                     requireContext(),
-                                    "Connected to HC-05",
+                                    "Connected to ${arduinoBTModule?.name}",
                                     Toast.LENGTH_LONG
                                 ).show()
+                                Log.d(TAG, "Successfully connected to ${arduinoBTModule?.name}")
                             }
                         },
                         { throwable ->
-                            // Handle error
                             Log.e(TAG, "Error connecting to Bluetooth device", throwable)
                             Toast.makeText(
                                 requireContext(),
@@ -185,12 +178,13 @@ class ConnectFragment : Fragment() {
                             ).show()
                         }
                     )
+            } else {
+                Log.w(TAG, "Connect button clicked but no device selected.")
+                Toast.makeText(requireContext(), "No device selected", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Back button
         backButton.setOnClickListener {
-            // Navigate back to the home fragment
             findNavController().navigate(R.id.action_connectFragment_to_homeFragment)
         }
 
@@ -202,115 +196,90 @@ class ConnectFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            // Bluetooth enabled
             Log.d(TAG, "Bluetooth is enabled now")
-            // Proceed to check for permissions
             val bluetoothManager =
                 requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
             val bluetoothAdapter = bluetoothManager.adapter
-            checkBluetoothPermissionsAndListDevices(bluetoothAdapter)
+            checkPermissionsAndListDevices(bluetoothAdapter)
         } else {
-            // User denied to enable Bluetooth
             Log.d(TAG, "Bluetooth is not enabled")
             Toast.makeText(requireContext(), "Bluetooth is not enabled", Toast.LENGTH_LONG).show()
         }
     }
 
     // Function to check permissions and list paired devices
-    private fun checkBluetoothPermissionsAndListDevices(bluetoothAdapter: BluetoothAdapter) {
+    private fun checkPermissionsAndListDevices(bluetoothAdapter: BluetoothAdapter) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // Android 12 and above
-            if (ContextCompat.checkSelfPermission(
+            if (ActivityCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.BLUETOOTH_CONNECT
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // Request Bluetooth permissions
                 requestPermissions(
                     arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
                     REQUEST_ENABLE_BT
                 )
                 Log.d(TAG, "Requested Bluetooth permissions")
             } else {
-                // Permissions granted, proceed to list devices
                 listPairedDevices(bluetoothAdapter)
             }
         } else {
-            // Below Android 12
             listPairedDevices(bluetoothAdapter)
         }
     }
 
     // Function to list paired devices
+    @SuppressLint("MissingPermission")
     private fun listPairedDevices(bluetoothAdapter: BluetoothAdapter) {
-        var btDevicesString = ""
-        val pairedDevices = bluetoothAdapter.bondedDevices
+        Log.d(TAG, "Listing paired devices...")
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.w(TAG, "Bluetooth permissions not granted to list paired devices.")
+            Toast.makeText(
+                requireContext(),
+                "Bluetooth permissions not granted.",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
 
-        if (pairedDevices.isNotEmpty()) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (device in pairedDevices) {
-                val deviceName = device.name
-                val deviceHardwareAddress = device.address // MAC address
-                Log.d(TAG, "deviceName: $deviceName")
-                Log.d(TAG, "deviceHardwareAddress: $deviceHardwareAddress")
-                // Append all devices to a String to display in the UI
-                btDevicesString += "$deviceName || $deviceHardwareAddress\n"
-                // If we find the HC-05 device (the Arduino BT module)
-                // We assign the device value to the Global variable BluetoothDevice
-                if (deviceName == "HC-05") {
-                    Log.d(TAG, "HC-05 found")
-                    if (ContextCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.BLUETOOTH_CONNECT
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        // Request the missing permissions and handle the result
-                        requestPermissions(
-                            arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
-                            REQUEST_ENABLE_BT
-                        )
-                        return
-                    }
-                    // Now safe to access device.uuids
-                    val deviceUuids = device.uuids
-                    if (deviceUuids != null && deviceUuids.isNotEmpty()) {
-                        arduinoUUID = deviceUuids[0].uuid
-                    } else {
-                        // Handle the case where device.uuids is null or empty
-                        arduinoUUID =
-                            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-                    }
-                    arduinoBTModule = device
-                    // HC-05 Found, enabling the button to connect
-                    connectToDevice.isEnabled = true
-                }
-            }
-            btDevices.text = btDevicesString
-        } else {
-            btDevices.text = "No paired devices found."
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+
+        if (pairedDevices.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "No paired devices found.", Toast.LENGTH_LONG).show()
+            Log.w(TAG, "No paired devices found.")
+        } else {
+            deviceList.clear()
+            devices.clear()
+            pairedDevices.forEach { device ->
+                devices.add(device)
+                deviceList.add("${device.name} (${device.address})")
+                Log.d(TAG, "Found paired device: ${device.name} (${device.address})")
+            }
+            adapter.notifyDataSetChanged()
+            deviceListView.visibility = View.VISIBLE
+            Log.d(TAG, "Paired devices displayed in list.")
         }
     }
 
-    // Handle the result of permission requests
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_ENABLE_BT) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-                Log.d(TAG, "Bluetooth permissions granted")
-                // Proceed to list paired devices
+        if (requestCode == REQUEST_ENABLE_BT || requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                Log.d(TAG, "Permissions granted, proceeding to list paired devices...")
                 val bluetoothManager =
                     requireContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
                 listPairedDevices(bluetoothAdapter)
             } else {
-                // Permission denied
-                Log.d(TAG, "Bluetooth permissions denied")
+                Log.w(TAG, "Bluetooth permissions were denied.")
                 Toast.makeText(
                     requireContext(),
                     "Bluetooth permissions are required to list paired devices.",
