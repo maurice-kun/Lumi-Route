@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-    <!-- Titel -->
     <TextView
         android:id="@+id/textAppName"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Logo-Platzhalter -->
     <ImageView
         android:id="@+id/logoPlaceholder"
         android:layout_width="120dp"
@@ -31,7 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textAppName" />
 
-    <!-- Start Navigation Button -->
     <Button
         android:id="@+id/btnStartNavigation"
         android:layout_width="0dp"
@@ -48,7 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoPlaceholder" />
 
-    <!-- Connect Helmet Button -->
     <Button
         android:id="@+id/btnConnectHelmet"
         android:layout_width="0dp"
@@ -65,7 +61,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnStartNavigation" />
 
-    <!-- Settings Button -->
     <Button
         android:id="@+id/btnSettings"
         android:layout_width="0dp"
@@ -82,7 +77,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnConnectHelmet" />
 
-    <!-- Feedback Button -->
     <Button
         android:id="@+id/btnFeedback"
         android:layout_width="0dp"
@@ -99,7 +93,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnSettings" />
 
-    <!-- Hochschullogo -->
     <ImageView
         android:id="@+id/universityLogo"
         android:layout_width="80dp"
@@ -111,7 +104,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnFeedback" />
 
-    <!-- Hochschultext -->
     <TextView
         android:id="@+id/textUniversity"
         android:layout_width="wrap_content"

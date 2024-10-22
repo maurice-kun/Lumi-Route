@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-    <!-- Titel -->
     <TextView
         android:id="@+id/textColorSettings"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Logo-Platzhalter -->
     <ImageView
         android:id="@+id/logoPlaceholder"
         android:layout_width="120dp"
@@ -31,7 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textColorSettings" />
 
-    <!-- Roter Wert -->
     <TextView
         android:id="@+id/redValue"
         android:layout_width="wrap_content"
@@ -59,7 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/redValue" />
 
-    <!-- Grüner Wert -->
     <TextView
         android:id="@+id/greenValue"
         android:layout_width="wrap_content"
@@ -87,7 +83,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/greenValue" />
 
-    <!-- Blauer Wert -->
     <TextView
         android:id="@+id/blueValue"
         android:layout_width="wrap_content"
@@ -115,7 +110,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/blueValue" />
 
-    <!-- Farbvorschau -->
     <ImageView
         android:id="@+id/colorDemo"
         android:layout_width="120dp"
@@ -127,7 +121,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seekBarBlue" />
 
-    <!-- Zurück-Button -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="0dp"

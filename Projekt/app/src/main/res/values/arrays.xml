@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="light_intensity_presets">
+        <item>Niedrig</item>
+        <item>Mittel</item>
+        <item>Hoch</item>
+    </string-array>
+
+    <string-array name="light_frequency_presets">
+        <item>Langsam</item>
+        <item>Normal</item>
+        <item>Schnell</item>
+    </string-array>
+</resources>

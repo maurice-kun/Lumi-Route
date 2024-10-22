@@ -20,34 +20,28 @@ class LanguageSettingsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_lngsettings, container, false)
 
-        // Zugriff auf die Buttons
         val buttonEnglish = view.findViewById<Button>(R.id.btnEnglish)
         val buttonGerman = view.findViewById<Button>(R.id.btnGerman)
         val buttonFrench = view.findViewById<Button>(R.id.btnFrench)
         val buttonJapanese = view.findViewById<Button>(R.id.btnJapanese)
         val buttonBack = view.findViewById<Button>(R.id.btnBack)
 
-        // Sprachwechsel für Englisch
         buttonEnglish.setOnClickListener {
             setLocale("en")
         }
 
-        // Sprachwechsel für Deutsch
         buttonGerman.setOnClickListener {
             setLocale("de")
         }
 
-        // Sprachwechsel für Französisch
         buttonFrench.setOnClickListener {
             setLocale("fr")
         }
 
-        // Sprachwechsel für Japanisch
         buttonJapanese.setOnClickListener {
             setLocale("jp")
         }
 
-        // "Back"-Button Aktion
         buttonBack.setOnClickListener {
             findNavController().navigate(R.id.action_languageSettingsFragment_to_settingsFragment)
         }

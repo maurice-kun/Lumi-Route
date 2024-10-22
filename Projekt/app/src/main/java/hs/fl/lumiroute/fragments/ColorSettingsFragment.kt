@@ -12,7 +12,6 @@ import hs.fl.lumiroute.R
 
 class ColorSettingsFragment : Fragment() {
 
-    // Variablen für die SeekBars und TextViews
     private lateinit var seekBarRed: SeekBar
     private lateinit var seekBarGreen: SeekBar
     private lateinit var seekBarBlue: SeekBar
@@ -23,7 +22,6 @@ class ColorSettingsFragment : Fragment() {
 
     private lateinit var colorDemo: ImageView
 
-    // Farbwerte
     private var red = 0
     private var green = 0
     private var blue = 0
@@ -34,7 +32,6 @@ class ColorSettingsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_colorsettings, container, false)
 
-        // Initialisierung der Views
         seekBarRed = view.findViewById(R.id.seekBarRed)
         seekBarGreen = view.findViewById(R.id.seekBarGreen)
         seekBarBlue = view.findViewById(R.id.seekBarBlue)
@@ -45,20 +42,16 @@ class ColorSettingsFragment : Fragment() {
 
         colorDemo = view.findViewById(R.id.colorDemo)
 
-        // Listener für die SeekBars hinzufügen
         seekBarRed.setOnSeekBarChangeListener(colorChangeListener)
         seekBarGreen.setOnSeekBarChangeListener(colorChangeListener)
         seekBarBlue.setOnSeekBarChangeListener(colorChangeListener)
 
-        // Anfangswerte der TextViews setzen
         redValueText.text = "Red: $red"
         greenValueText.text = "Green: $green"
         blueValueText.text = "Blue: $blue"
 
-        // Initiale Farbvorschau aktualisieren
         updateColor()
 
-        // Back-Button einrichten
         val buttonBack = view.findViewById<Button>(R.id.btnBack)
         buttonBack.setOnClickListener {
             findNavController().navigate(R.id.action_colorSettingsFragment_to_settingsFragment)
@@ -67,7 +60,6 @@ class ColorSettingsFragment : Fragment() {
         return view
     }
 
-    // Listener für die SeekBars
     private val colorChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             when (seekBar.id) {
@@ -86,20 +78,16 @@ class ColorSettingsFragment : Fragment() {
                     blueValueText.text = "Blue: $blue"
                 }
             }
-            // Farbvorschau aktualisieren
             updateColor()
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
-            // Nicht benötigt
         }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
-            // Nicht benötigt
         }
     }
 
-    // Methode zur Aktualisierung der Farbvorschau
     private fun updateColor() {
         val color = Color.rgb(red, green, blue)
         colorDemo.setBackgroundColor(color)
