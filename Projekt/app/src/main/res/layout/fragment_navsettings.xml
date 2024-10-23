@@ -26,25 +26,32 @@
         android:contentDescription="@string/destination"
         android:src="@drawable/logo_motorcycle_helmet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textSetDestination" />
 
-    <Button
-        android:id="@+id/btnDestination"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputDestination"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/green_button"
-        android:minHeight="48dp"
-        android:text="@string/destination"
-        android:textColor="@color/black"
-        app:cornerRadius="5dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/white"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/destinationIcon" />
+        app:layout_constraintTop_toBottomOf="@id/destinationIcon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/destination"
+            android:textColor="@color/text_white"
+            android:textColorHint="@color/text_white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnStartNavigation"
@@ -60,7 +67,7 @@
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnDestination" />
+        app:layout_constraintTop_toBottomOf="@id/textInputDestination" />
 
     <Button
         android:id="@+id/btnBack"
@@ -69,11 +76,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="@color/black"
         android:minHeight="48dp"
         android:text="@string/back"
         android:textColor="@color/text_white"
         app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnStartNavigation" />
