@@ -32,11 +32,12 @@ import hs.fl.lumiroute.R
 import hs.fl.lumiroute.bluetooth.ConnectedClass
 import hs.fl.lumiroute.bluetooth.ConnectedThread
 import hs.fl.lumiroute.bluetooth.ConnectThread
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
+
 
 class ConnectFragment : Fragment() {
     // Bluetooth variables
@@ -105,30 +106,27 @@ class ConnectFragment : Fragment() {
         }
 
         // Create an Observable for Bluetooth connection
-        val connectToBTObservable =
-            Observable.create { emitter: ObservableEmitter<ConnectedClass?> ->
-                Log.d(TAG, "Calling connectThread class")
-                val connectThread = ConnectThread(
-                    arduinoBTModule,
-                    arduinoUUID,
-                    handler
-                )
-                connectThread.run()
-                // Check if Socket connected
-                if (connectThread.mmSocket.isConnected) {
-                    Log.d(TAG, "Calling ConnectedThread class")
-                    connectedThread = ConnectedThread(connectThread.mmSocket)
-                    if (connectedThread != null && connectedThread!!.mmInStream != null) {
-                        val connected = ConnectedClass()
-                        connected.isConnected = true
-                        emitter.onNext(connected)
+        val connectToBTObservable = Observable.create<ConnectedClass> { emitter ->
+            Log.d(TAG, "Calling connectThread class")
+            val connectThread = ConnectThread(arduinoBTModule, arduinoUUID, handler)
+            connectThread.run()
+
+            if (connectThread.mmSocket.isConnected) {
+                Log.d(TAG, "Calling ConnectedThread class")
+                connectedThread = ConnectedThread(connectThread.mmSocket)
+                if (connectedThread != null && connectedThread!!.mmInStream != null) {
+                    val connected = ConnectedClass().apply {
+                        isConnected = true
                     }
-                } else {
-                    Log.e(TAG, "Failed to connect to Bluetooth device")
-                    emitter.onError(Throwable("Failed to connect to Bluetooth device"))
+                    emitter.onNext(connected)
                 }
-                emitter.onComplete()
+            } else {
+                Log.e(TAG, "Failed to connect to Bluetooth device")
+                emitter.onError(Throwable("Failed to connect to Bluetooth device"))
             }
+            emitter.onComplete()
+        }
+
 
         // Set up button listeners
         searchDevicesButton.setOnClickListener {

@@ -2,29 +2,28 @@ package hs.fl.lumiroute.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.navigation.fragment.findNavController
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import hs.fl.lumiroute.R
+import hs.fl.lumiroute.bluetooth.ConnectedThread
+import hs.fl.lumiroute.bluetooth.LumiApplication
 
 class ColorSettingsFragment : Fragment() {
 
     private lateinit var seekBarRed: SeekBar
     private lateinit var seekBarGreen: SeekBar
     private lateinit var seekBarBlue: SeekBar
-
-    private lateinit var redValueText: TextView
-    private lateinit var greenValueText: TextView
-    private lateinit var blueValueText: TextView
-
     private lateinit var colorDemo: ImageView
-
     private var red = 0
     private var green = 0
     private var blue = 0
+
+    private var connectedThread: ConnectedThread? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,27 +34,18 @@ class ColorSettingsFragment : Fragment() {
         seekBarRed = view.findViewById(R.id.seekBarRed)
         seekBarGreen = view.findViewById(R.id.seekBarGreen)
         seekBarBlue = view.findViewById(R.id.seekBarBlue)
-
-        redValueText = view.findViewById(R.id.redValue)
-        greenValueText = view.findViewById(R.id.greenValue)
-        blueValueText = view.findViewById(R.id.blueValue)
-
         colorDemo = view.findViewById(R.id.colorDemo)
 
+        // Bluetooth-Thread aus der Anwendung abrufen
+        connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
+        if (connectedThread == null) {
+            Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT).show()
+        }
+
+        // Listener für SeekBars
         seekBarRed.setOnSeekBarChangeListener(colorChangeListener)
         seekBarGreen.setOnSeekBarChangeListener(colorChangeListener)
         seekBarBlue.setOnSeekBarChangeListener(colorChangeListener)
-
-        redValueText.text = "Red: $red"
-        greenValueText.text = "Green: $green"
-        blueValueText.text = "Blue: $blue"
-
-        updateColor()
-
-        val buttonBack = view.findViewById<Button>(R.id.btnBack)
-        buttonBack.setOnClickListener {
-            findNavController().navigate(R.id.action_colorSettingsFragment_to_settingsFragment)
-        }
 
         return view
     }
@@ -63,33 +53,27 @@ class ColorSettingsFragment : Fragment() {
     private val colorChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             when (seekBar.id) {
-                R.id.seekBarRed -> {
-                    red = progress
-                    redValueText.text = "Red: $red"
-                }
-
-                R.id.seekBarGreen -> {
-                    green = progress
-                    greenValueText.text = "Green: $green"
-                }
-
-                R.id.seekBarBlue -> {
-                    blue = progress
-                    blueValueText.text = "Blue: $blue"
-                }
+                R.id.seekBarRed -> red = progress
+                R.id.seekBarGreen -> green = progress
+                R.id.seekBarBlue -> blue = progress
             }
             updateColor()
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar) {
-        }
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
+            sendColorToArduino()
         }
     }
 
     private fun updateColor() {
-        val color = Color.rgb(red, green, blue)
-        colorDemo.setBackgroundColor(color)
+        colorDemo.setBackgroundColor(Color.rgb(red, green, blue))
+    }
+
+    private fun sendColorToArduino() {
+        val colorData = "$red.$green.$blue"
+        connectedThread?.write(colorData)
+            ?: Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT).show()
     }
 }

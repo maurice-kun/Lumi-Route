@@ -4,22 +4,27 @@ import android.app.Application;
 
 public class LumiApplication extends Application {
     private static LumiApplication sInstance;
-    ConnectedThread connectedThread = null;
+    private ConnectedThread connectedThread = null;
 
     public static LumiApplication getApplication() {
         return sInstance;
     }
 
+    @Override
     public void onCreate() {
         super.onCreate();
         sInstance = this;
     }
 
-    public void setupConnectedThread(ConnectedThread connectedThread) {
-        this.connectedThread = connectedThread;
+    public synchronized void setupConnectedThread(ConnectedThread thread) {
+        if (connectedThread != null) {
+            connectedThread.cancel(); // Vorherigen Thread schließen
+        }
+        connectedThread = thread;
+        connectedThread.start(); // Starte den neuen Thread
     }
 
-    public ConnectedThread getCurrentConnectedThread() {
+    public synchronized ConnectedThread getCurrentConnectedThread() {
         return connectedThread;
     }
 }

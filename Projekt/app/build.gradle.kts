@@ -47,11 +47,14 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    // RxJava und RxAndroid Abhängigkeiten in Kotlin-DSL Syntax
-    implementation("io.reactivex.rxjava2:rxandroid:2.0.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.0.8")
+    // RxJava
+    implementation(libs.rxjava)
+
+    // RxAndroid für Android-spezifische Unterstützung
+    implementation(libs.rxandroid)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

@@ -1,5 +1,6 @@
 package hs.fl.lumiroute.bluetooth;
 
+
 public class ConnectedClass {
     String message;
     String deviceName;

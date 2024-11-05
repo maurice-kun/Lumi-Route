@@ -21,10 +21,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import hs.fl.lumiroute.R
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
@@ -70,38 +70,36 @@ class MainActivity : AppCompatActivity() {
 
         // Create an Observable from RxAndroid
         //The code will be executed when an Observer subscribes to the the Observable
-        val connectToBTObservable =
-            Observable.create { emitter: ObservableEmitter<ConnectedClass?> ->
-                Log.d(
-                    TAG,
-                    "Calling connectThread class"
-                )
-                //Call the constructor of the ConnectThread class
-                //Passing the Arguments: an Object that represents the BT device,
-                // the UUID and then the handler to update the UI
-                val connectThread = ConnectThread(
-                    arduinoBTModule,
-                    arduinoUUID,
-                    handler
-                )
-                connectThread.run()
-                //Check if Socket connected
-                if (connectThread.mmSocket.isConnected) {
-                    Log.d(
-                        TAG,
-                        "Calling ConnectedThread class"
-                    )
-                    //The pass the Open socket as arguments to call the constructor of ConnectedThread
-                    connectedThread = ConnectedThread(connectThread.mmSocket)
-                    if (connectedThread!!.mmInStream != null && connectedThread != null) {
-                        val connected = ConnectedClass()
-                        connected.isConnected = true
+        // Create an Observable for Bluetooth connection
+        val connectToBTObservable = Observable.create<ConnectedClass> { emitter ->
+            Log.d(TAG, "Calling connectThread class")
+
+            val connectThread = ConnectThread(arduinoBTModule, arduinoUUID, handler)
+            connectThread.run()
+
+            if (connectThread.mmSocket.isConnected) {
+                Log.d(TAG, "Calling ConnectedThread class")
+                connectedThread = ConnectedThread(connectThread.mmSocket)
+
+                connectedThread?.let {
+                    if (it.mmInStream != null) {
+                        val connected = ConnectedClass().apply {
+                            isConnected = true
+                        }
                         emitter.onNext(connected)
-                        //MyApplication.setupConnectedThread();
                     }
+                } ?: run {
+                    Log.e(TAG, "ConnectedThread is null or has null stream")
+                    emitter.onError(Throwable("ConnectedThread is null or has null stream"))
                 }
-                emitter.onComplete()
+            } else {
+                Log.e(TAG, "Failed to connect to Bluetooth device")
+                emitter.onError(Throwable("Failed to connect to Bluetooth device"))
             }
+
+            emitter.onComplete()
+        }
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////// Find all Linked devices ///////////////////////////////////////////////////////////////
