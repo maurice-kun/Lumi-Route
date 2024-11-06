@@ -6,11 +6,11 @@
     android:background="@drawable/background_gradient">
 
     <TextView
-        android:id="@+id/textSettings"
+        android:id="@+id/textDebug"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/settings"
+        android:text="Debug"
         android:textColor="@color/text_white"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/settingsIcon"
+        android:id="@+id/debugIcon"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="16dp"
@@ -28,10 +28,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textSettings" />
+        app:layout_constraintTop_toBottomOf="@id/textDebug" />
 
     <Button
-        android:id="@+id/btnLanguage"
+        android:id="@+id/btnBlinkLeft"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -39,15 +39,15 @@
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/white_button"
         android:minHeight="48dp"
-        android:text="@string/language"
+        android:text="Blinken Links"
         android:textColor="@color/black"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsIcon" />
+        app:layout_constraintTop_toBottomOf="@id/debugIcon" />
 
     <Button
-        android:id="@+id/btnColorSettings"
+        android:id="@+id/btnBlinkRight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -55,15 +55,15 @@
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/white_button"
         android:minHeight="48dp"
-        android:text="@string/color_settings"
+        android:text="Blinken Rechts"
         android:textColor="@color/black"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLanguage" />
+        app:layout_constraintTop_toBottomOf="@id/btnBlinkLeft" />
 
     <Button
-        android:id="@+id/btnLightSettings"
+        android:id="@+id/btnWarningLights"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -71,15 +71,15 @@
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/white_button"
         android:minHeight="48dp"
-        android:text="@string/light_settings"
+        android:text="Warnblink"
         android:textColor="@color/black"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnColorSettings" />
+        app:layout_constraintTop_toBottomOf="@id/btnBlinkRight" />
 
     <Button
-        android:id="@+id/btnMode"
+        android:id="@+id/btnDisconnect"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -87,28 +87,12 @@
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/white_button"
         android:minHeight="48dp"
-        android:text="@string/change_mode"
+        android:text="Disconnect"
         android:textColor="@color/black"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLightSettings" />
-
-    <Button
-        android:id="@+id/btnDebug"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/white_button"
-        android:minHeight="48dp"
-        android:text="Debug"
-        android:textColor="@color/black"
-        app:cornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnMode" />
+        app:layout_constraintTop_toBottomOf="@id/btnWarningLights" />
 
     <Button
         android:id="@+id/btnBack"
@@ -126,6 +110,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnDebug" />
+        app:layout_constraintTop_toBottomOf="@id/btnDisconnect" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
