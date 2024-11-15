@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directions>
+    <direction
+        distance="100"
+        type="left" />
+    <direction
+        distance="200"
+        type="straight" />
+    <direction
+        distance="50"
+        type="right" />
+</directions>

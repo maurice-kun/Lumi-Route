@@ -95,6 +95,22 @@
         app:layout_constraintTop_toBottomOf="@id/btnWarningLights" />
 
     <Button
+        android:id="@+id/btnStop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/white_button"
+        android:minHeight="48dp"
+        android:text="Stop"
+        android:textColor="@color/black"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnDisconnect" />
+
+    <Button
         android:id="@+id/btnBack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,6 +126,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnDisconnect" />
+        app:layout_constraintTop_toBottomOf="@id/btnStop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

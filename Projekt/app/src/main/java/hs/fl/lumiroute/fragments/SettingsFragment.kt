@@ -37,6 +37,11 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_debugFragment)
         }
 
+        val buttonTest = view.findViewById<Button>(R.id.btnTest)
+        buttonTest.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_testFragment)
+        }
+
         val buttonBack = view.findViewById<Button>(R.id.btnBack)
         buttonBack.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)

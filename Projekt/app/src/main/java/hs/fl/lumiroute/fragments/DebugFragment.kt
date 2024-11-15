@@ -50,6 +50,11 @@ class DebugFragment : Fragment() {
             sendSignalToArduino("d") // Signal für Verbindungsverlust (Rotlicht links/rechts)
         }
 
+        val buttonStop = view.findViewById<Button>(R.id.btnStop)
+        buttonStop.setOnClickListener {
+            sendSignalToArduino("stop")
+        }
+
         val buttonBack = view.findViewById<Button>(R.id.btnBack)
         buttonBack.setOnClickListener {
             findNavController().navigate(R.id.action_debugFragment_to_settingsFragment)

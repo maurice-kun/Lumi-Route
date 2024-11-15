@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+    <action
+        name="blink_left"
+        enabled="true"
+        interval="500" />
+    <action
+        name="blink_right"
+        enabled="false"
+        interval="1000" />
+    <action
+        name="warn_blink"
+        enabled="true" />
+    <action
+        name="disconnect_light"
+        enabled="true" />
+</settings>
