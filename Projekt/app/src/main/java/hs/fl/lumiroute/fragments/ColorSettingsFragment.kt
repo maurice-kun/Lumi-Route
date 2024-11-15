@@ -39,7 +39,8 @@ class ColorSettingsFragment : Fragment() {
         // Bluetooth-Thread aus der Anwendung abrufen
         connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
         if (connectedThread == null) {
-            Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT)
+                .show()
         }
 
         // Listener für SeekBars
@@ -74,6 +75,7 @@ class ColorSettingsFragment : Fragment() {
     private fun sendColorToArduino() {
         val colorData = "$red.$green.$blue"
         connectedThread?.write(colorData)
-            ?: Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT).show()
+            ?: Toast.makeText(context, "Bluetooth-Verbindung nicht verfügbar", Toast.LENGTH_SHORT)
+                .show()
     }
 }
