@@ -1,6 +1,12 @@
 package hs.fl.lumiroute.fragments
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,120 +15,146 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import hs.fl.lumiroute.R
-import hs.fl.lumiroute.bluetooth.ConnectedThread
-import hs.fl.lumiroute.bluetooth.LumiApplication
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.Socket
+import java.io.File
 
 class TestFragment : Fragment() {
 
     private lateinit var directionArrow: ImageView
     private lateinit var distanceText: TextView
-    private var isConnected = false
+
+    // Pfad zur Datei im App-spezifischen Speicher
+    private val filePathOnAndroid: String
+        get() = requireContext().getExternalFilesDir(null)?.absolutePath + "/navigation_data.txt"
+
+    private val checkInterval = 1000L // Intervall in Millisekunden (z. B. 1 Sekunde)
+    private var lastTimestamp: String = "" // Speichert den zuletzt verarbeiteten Timestamp
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("TestFragment", "onCreateView aufgerufen")
         val view = inflater.inflate(R.layout.fragment_test, container, false)
 
         // Initialisiere UI-Elemente
         directionArrow = view.findViewById(R.id.directionArrow)
         distanceText = view.findViewById(R.id.distanceText)
 
-        // Starte die Verbindung zum Unity-Server
-        connectToUnityServer()
+        // Prüfe Berechtigungen
+        if (hasManageExternalStoragePermission()) {
+            Log.d("Permissions", "Berechtigungen bereits erteilt.")
+            startFileMonitoring()
+        } else {
+            Log.d("Permissions", "Berechtigungen fehlen. Fordere an...")
+            requestManageExternalStoragePermission()
+        }
 
         return view
     }
 
-    private fun connectToUnityServer() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val socket = Socket("192.168.0.100", 5050) // Unity-Server-IP und Port
-                isConnected = true
-                val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
-                val writer = OutputStreamWriter(socket.getOutputStream())
+    private fun startFileMonitoring() {
+        Log.d("TestFragment", "Start File Monitoring...")
+        val handler = Handler()
+        val runnable = object : Runnable {
+            override fun run() {
+                Log.d("FileMonitor", "Überprüfe Datei: $filePathOnAndroid")
+                readLocalFile(filePathOnAndroid) // Datei lesen und verarbeiten
+                handler.postDelayed(this, checkInterval) // Wiederholung alle `checkInterval` Millisekunden
+            }
+        }
+        handler.post(runnable)
+    }
 
-                while (isConnected) {
-                    val message = reader.readLine()
-                    if (message != null) {
-                        Log.d("TestFragment", "Empfangene Nachricht: $message")
-                        requireActivity().runOnUiThread {
-                            processUnityData(message)
-                        }
+    private fun readLocalFile(filePath: String) {
+        Log.d("FileReader", "Versuche Datei zu lesen: $filePath")
+        try {
+            val file = File(filePath)
+            if (file.exists()) {
+                val content = file.readText()
+                Log.d("FileReader", "Dateiinhalt: $content")
 
-                        // Optional: Antwort an Unity senden
-                        writer.write("Daten empfangen\n")
-                        writer.flush()
-                    }
+                val (timestamp, data) = parseFileContent(content)
+
+                if (timestamp != lastTimestamp) {
+                    lastTimestamp = timestamp
+                    Log.d("FileReader", "Neue Daten erkannt: $data (Timestamp: $timestamp)")
+                    processUnityData(data)
+                } else {
+                    Log.d("FileReader", "Keine Änderungen erkannt. Timestamp: $timestamp")
                 }
+            } else {
+                Log.e("FileReader", "Datei nicht gefunden: $filePath")
+            }
+        } catch (e: Exception) {
+            Log.e("FileReader", "Fehler beim Lesen der Datei: ${e.message}")
+        }
+    }
 
-                socket.close()
-            } catch (e: Exception) {
-                Log.e("TestFragment", "Fehler bei der Verbindung: ${e.message}")
+    private fun processUnityData(data: String) {
+        Log.d("UnityData", "Verarbeite Daten: $data")
+
+        // Daten direkt in der UI anzeigen
+        distanceText.text = data
+
+        // Beispielhafte Verarbeitung: Richtung anzeigen
+        when {
+            data.contains("A", ignoreCase = true) -> {
+                directionArrow.setImageResource(R.drawable.ic_arrow_left)
+                Log.d("UnityData", "Richtung erkannt: Links (A)")
+            }
+            data.contains("D", ignoreCase = true) -> {
+                directionArrow.setImageResource(R.drawable.ic_arrow_right)
+                Log.d("UnityData", "Richtung erkannt: Rechts (D)")
+            }
+            data.contains("W", ignoreCase = true) -> {
+                directionArrow.setImageResource(R.drawable.ic_arrow_straight)
+                Log.d("UnityData", "Richtung erkannt: Geradeaus (W)")
+            }
+            else -> {
+                Log.d("UnityData", "Keine Richtung erkannt.")
             }
         }
     }
 
-    private fun processUnityData(message: String) {
-        try {
-            // JSON-Daten parsen
-            val jsonData = JSONObject(message)
-            val positionX = jsonData.getDouble("positionX")
-            val positionY = jsonData.getDouble("positionY")
-            val positionZ = jsonData.getDouble("positionZ")
 
-            // Zeige die Daten in der UI an
-            distanceText.text = "X: $positionX, Y: $positionY, Z: $positionZ"
-
-            // Interpretiere die Daten für Bewegungsanweisungen
-            val direction = determineDirection(positionX, positionY, positionZ)
-            updateUIForDirection(direction)
-
-            // Sende die Richtung an das Arduino
-            sendSignalToArduino(direction)
-        } catch (e: Exception) {
-            Log.e("TestFragment", "Fehler beim Verarbeiten der Nachricht: ${e.message}")
+    private fun parseFileContent(content: String): Pair<String, String> {
+        // Trennt den Timestamp und die Daten
+        val parts = content.split("|")
+        return if (parts.size == 2) {
+            parts[0] to parts[1] // Timestamp und Daten
+        } else {
+            "" to content // Falls das Format nicht stimmt
         }
     }
 
-    private fun determineDirection(positionX: Double, positionY: Double, positionZ: Double): String {
-        return when {
-            positionX < -1 -> "left" // Links abbiegen
-            positionX > 1 -> "right" // Rechts abbiegen
-            else -> "straight" // Geradeaus
+    private fun hasManageExternalStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            true // Für ältere Android-Versionen
         }
     }
 
-    private fun updateUIForDirection(direction: String) {
-        when (direction) {
-            "left" -> directionArrow.setImageResource(R.drawable.ic_arrow_left)
-            "right" -> directionArrow.setImageResource(R.drawable.ic_arrow_right)
-            "straight" -> directionArrow.setImageResource(R.drawable.ic_arrow_straight)
+    private fun requestManageExternalStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:" + requireContext().packageName)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("Permissions", "Fehler beim Öffnen der Berechtigungseinstellungen: ${e.message}")
+            }
         }
     }
 
-    private fun sendSignalToArduino(direction: String) {
-        val signal = when (direction) {
-            "left" -> "L100" // Beispiel: Links mit 100 m
-            "right" -> "R100" // Beispiel: Rechts mit 100 m
-            "straight" -> "S100" // Beispiel: Geradeaus mit 100 m
-            else -> return
+    override fun onResume() {
+        super.onResume()
+        // Überprüfe Berechtigung, wenn der Nutzer zurückkommt
+        if (hasManageExternalStoragePermission()) {
+            Log.d("Permissions", "Berechtigungen erteilt. Starte Dateiüberwachung.")
+            startFileMonitoring()
+        } else {
+            Log.e("Permissions", "Berechtigungen weiterhin nicht erteilt.")
         }
-
-        val connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
-        connectedThread?.write(signal)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        isConnected = false
     }
 }
