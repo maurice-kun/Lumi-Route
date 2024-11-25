@@ -61,9 +61,7 @@ public class ConfigureLed extends AppCompatActivity {
                     default:
                         throw new IllegalStateException("Unexpected value: " + color);
                 }
-
                 colorDemo.setBackgroundColor(Color.rgb(redNumber, greenNumber, blueNumber));
-
             }
 
             @Override

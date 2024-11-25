@@ -15,12 +15,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import hs.fl.lumiroute.R
+import hs.fl.lumiroute.bluetooth.LumiApplication
 import java.io.File
 
 class TestFragment : Fragment() {
 
     private lateinit var directionArrow: ImageView
     private lateinit var distanceText: TextView
+
+    // Bluetooth-Thread
+    private val connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
 
     // Pfad zur Datei im App-spezifischen Speicher
     private val filePathOnAndroid: String
@@ -59,7 +63,10 @@ class TestFragment : Fragment() {
             override fun run() {
                 Log.d("FileMonitor", "Überprüfe Datei: $filePathOnAndroid")
                 readLocalFile(filePathOnAndroid) // Datei lesen und verarbeiten
-                handler.postDelayed(this, checkInterval) // Wiederholung alle `checkInterval` Millisekunden
+                handler.postDelayed(
+                    this,
+                    checkInterval
+                ) // Wiederholung alle `checkInterval` Millisekunden
             }
         }
         handler.post(runnable)
@@ -96,26 +103,40 @@ class TestFragment : Fragment() {
         // Daten direkt in der UI anzeigen
         distanceText.text = data
 
-        // Beispielhafte Verarbeitung: Richtung anzeigen
+        // Beispielhafte Verarbeitung: Richtung anzeigen und Signal senden
         when {
             data.contains("A", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_left)
+                sendSignalToArduino("L") // Links-Signal
                 Log.d("UnityData", "Richtung erkannt: Links (A)")
             }
+
             data.contains("D", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_right)
+                sendSignalToArduino("R") // Rechts-Signal
                 Log.d("UnityData", "Richtung erkannt: Rechts (D)")
             }
+
             data.contains("W", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_straight)
+                sendSignalToArduino("S") // Geradeaus-Signal
                 Log.d("UnityData", "Richtung erkannt: Geradeaus (W)")
             }
+
             else -> {
                 Log.d("UnityData", "Keine Richtung erkannt.")
             }
         }
     }
 
+    private fun sendSignalToArduino(signal: String) {
+        try {
+            connectedThread?.write(signal)
+            Log.d("Bluetooth", "Signal an Arduino gesendet: $signal")
+        } catch (e: Exception) {
+            Log.e("Bluetooth", "Fehler beim Senden des Signals: ${e.message}")
+        }
+    }
 
     private fun parseFileContent(content: String): Pair<String, String> {
         // Trennt den Timestamp und die Daten
@@ -142,7 +163,10 @@ class TestFragment : Fragment() {
                 intent.data = Uri.parse("package:" + requireContext().packageName)
                 startActivity(intent)
             } catch (e: Exception) {
-                Log.e("Permissions", "Fehler beim Öffnen der Berechtigungseinstellungen: ${e.message}")
+                Log.e(
+                    "Permissions",
+                    "Fehler beim Öffnen der Berechtigungseinstellungen: ${e.message}"
+                )
             }
         }
     }
