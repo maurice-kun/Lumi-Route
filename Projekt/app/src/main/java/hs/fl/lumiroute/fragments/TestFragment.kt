@@ -27,6 +27,7 @@ class TestFragment : Fragment() {
 
     // Bluetooth-Thread
     private val connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
+    private var lastDirection: String = "" // Speichert die zuletzt erkannte Richtung
 
     // Pfad zur Datei im App-spezifischen Speicher
     private val filePathOnAndroid: String
@@ -89,12 +90,16 @@ class TestFragment : Fragment() {
 
                 val (timestamp, data) = parseFileContent(content)
 
-                if (timestamp != lastTimestamp) {
+                if (timestamp != lastTimestamp || data != lastDirection) {
                     lastTimestamp = timestamp
+                    lastDirection = data
                     Log.d("FileReader", "Neue Daten erkannt: $data (Timestamp: $timestamp)")
                     processUnityData(data)
                 } else {
-                    Log.d("FileReader", "Keine Änderungen erkannt. Timestamp: $timestamp")
+                    Log.d(
+                        "FileReader",
+                        "Keine Änderungen erkannt. Timestamp: $timestamp, Richtung: $data"
+                    )
                 }
             } else {
                 Log.e("FileReader", "Datei nicht gefunden: $filePath")
@@ -114,20 +119,26 @@ class TestFragment : Fragment() {
         when {
             data.contains("A", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_left)
-                sendSignalToArduino("L") // Links-Signal
+                sendSignalToArduino("l") // Links-Signal
                 Log.d("UnityData", "Richtung erkannt: Links (A)")
             }
 
             data.contains("D", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_right)
-                sendSignalToArduino("R") // Rechts-Signal
+                sendSignalToArduino("r") // Rechts-Signal
                 Log.d("UnityData", "Richtung erkannt: Rechts (D)")
             }
 
             data.contains("W", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_straight)
-                sendSignalToArduino("S") // Geradeaus-Signal
+                sendSignalToArduino("stopp") // Geradeaus-Signal
                 Log.d("UnityData", "Richtung erkannt: Geradeaus (W)")
+            }
+
+            data.contains("Stopp", ignoreCase = true) -> {
+                directionArrow.setImageResource(R.drawable.logo_hs)
+                sendSignalToArduino("stopp") // Geradeaus-Signal
+                Log.d("UnityData", "stopp")
             }
 
             else -> {
@@ -149,11 +160,14 @@ class TestFragment : Fragment() {
         // Trennt den Timestamp und die Daten
         val parts = content.split("|")
         return if (parts.size == 2) {
-            parts[0] to parts[1] // Timestamp und Daten
+            val dataParts = parts[1].split(":")
+            val navigationHint = if (dataParts.size > 1) dataParts[1].trim() else ""
+            parts[0] to navigationHint // Timestamp und Daten nach dem Doppelpunkt
         } else {
             "" to content // Falls das Format nicht stimmt
         }
     }
+
 
     private fun hasManageExternalStoragePermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
