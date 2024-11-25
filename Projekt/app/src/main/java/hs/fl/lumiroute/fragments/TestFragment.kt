@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import hs.fl.lumiroute.R
 import hs.fl.lumiroute.bluetooth.LumiApplication
 import java.io.File
@@ -51,6 +53,11 @@ class TestFragment : Fragment() {
         } else {
             Log.d("Permissions", "Berechtigungen fehlen. Fordere an...")
             requestManageExternalStoragePermission()
+        }
+
+        val buttonBack = view.findViewById<Button>(R.id.btnBack)
+        buttonBack.setOnClickListener {
+            findNavController().navigate(R.id.action_testFragment_to_settingsFragment)
         }
 
         return view
