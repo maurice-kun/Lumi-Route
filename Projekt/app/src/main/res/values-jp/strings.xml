@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_logo">アプリのロゴ</string>
+    <string name="app_logo">アプリロゴ</string>
     <string name="app_name">Lumi Route</string>
     <string name="back">戻る</string>
     <string name="blue">青</string>
@@ -8,7 +8,7 @@
     <string name="color_settings">カラー設定</string>
     <string name="connect_helmet">ヘルメットを接続</string>
     <string name="destination">目的地</string>
-    <string name="end_navigation">ナビゲーションを終了</string>
+    <string name="end_navigation">ナビゲーション終了</string>
     <string name="english">英語</string>
     <string name="feedback">フィードバック</string>
     <string name="french">フランス語</string>
@@ -18,18 +18,27 @@
     <string name="japanese">日本語</string>
     <string name="language">言語</string>
     <string name="language_settings">言語設定</string>
-    <string name="light_frequency">ライトの周波数</string>
-    <string name="light_intensity">ライトの強度</string>
+    <string name="light_frequency">ライト周波数</string>
+    <string name="light_intensity">ライト強度</string>
     <string name="light_settings">ライト設定</string>
     <string name="navigation">ナビゲーション</string>
-    <string name="navigation_icon">ナビゲーションアイコン</string>
+    <string name="navigation_icon">ナビアイコン</string>
     <string name="pair">ペアリング</string>
     <string name="project_university">フレンスブルク大学のプロジェクト</string>
     <string name="red">赤</string>
     <string name="scan_for_devices">デバイスを検索</string>
     <string name="set_destination">目的地を設定</string>
     <string name="settings">設定</string>
-    <string name="start_navigation">ナビゲーションを開始</string>
+    <string name="start_navigation">ナビゲーション開始</string>
     <string name="submit">送信</string>
-    <string name="university_logo">大学のロゴ</string>
+    <string name="university_logo">大学ロゴ</string>
+    <string name="direction_arrow">方向矢印</string>
+    <string name="direction">方向</string>
+    <string name="debug">デバッグ</string>
+    <string name="test">テスト</string>
+    <string name="blink_left">左ウィンカー</string>
+    <string name="blink_right">右ウィンカー</string>
+    <string name="warn_light">警告ライト</string>
+    <string name="disconnect">切断</string>
+    <string name="stop">停止</string>
 </resources>

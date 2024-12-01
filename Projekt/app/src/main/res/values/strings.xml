@@ -24,7 +24,7 @@
     <string name="navigation">Navigation</string>
     <string name="navigation_icon">Navigation Icon</string>
     <string name="pair">Pair</string>
-    <string name="project_university">A project of the Hochschule Flensburg</string>
+    <string name="project_university">A project of Hochschule Flensburg</string>
     <string name="red">Red</string>
     <string name="scan_for_devices">Scan for Devices</string>
     <string name="set_destination">Set Destination</string>
@@ -32,4 +32,13 @@
     <string name="start_navigation">Start Navigation</string>
     <string name="submit">Submit</string>
     <string name="university_logo">University Logo</string>
+    <string name="direction_arrow">Direction Arrow</string>
+    <string name="direction">Direction</string>
+    <string name="debug">Debug</string>
+    <string name="test">Test</string>
+    <string name="blink_left">Blink Left</string>
+    <string name="blink_right">Blink Right</string>
+    <string name="warn_light">Warning Light</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="stop">Stop</string>
 </resources>
