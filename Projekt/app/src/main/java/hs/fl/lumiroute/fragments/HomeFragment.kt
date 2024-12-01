@@ -19,7 +19,7 @@ class HomeFragment : Fragment() {
 
         val buttonToNavigation = view.findViewById<Button>(R.id.btnStartNavigation)
         buttonToNavigation.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_navigationSettingsFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_testFragment)
         }
 
         val buttonToConnect = view.findViewById<Button>(R.id.btnConnectHelmet)

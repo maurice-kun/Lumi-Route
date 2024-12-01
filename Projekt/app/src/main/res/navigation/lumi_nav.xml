@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_testFragment"
+            app:destination="@id/testFragment" />
     </fragment>
     <fragment
         android:id="@+id/connectFragment"
@@ -127,5 +130,8 @@
         <action
             android:id="@+id/action_testFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

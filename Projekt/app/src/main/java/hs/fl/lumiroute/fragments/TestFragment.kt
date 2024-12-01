@@ -58,7 +58,7 @@ class TestFragment : Fragment() {
 
         val buttonBack = view.findViewById<Button>(R.id.btnBack)
         buttonBack.setOnClickListener {
-            findNavController().navigate(R.id.action_testFragment_to_settingsFragment)
+            findNavController().navigate(R.id.action_testFragment_to_homeFragment)
         }
 
         return view
@@ -111,34 +111,33 @@ class TestFragment : Fragment() {
 
     private fun processUnityData(data: String) {
         Log.d("UnityData", "Verarbeite Daten: $data")
-
-        // Daten direkt in der UI anzeigen
-        distanceText.text = data
-
-        // Beispielhafte Verarbeitung: Richtung anzeigen und Signal senden
         when {
             data.contains("A", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_left)
+                distanceText.text = "Links" // Setze den Text auf "Links"
                 sendSignalToArduino("l") // Links-Signal
                 Log.d("UnityData", "Richtung erkannt: Links (A)")
             }
 
             data.contains("D", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_right)
+                distanceText.text = "Rechts" // Setze den Text auf "Rechts"
                 sendSignalToArduino("r") // Rechts-Signal
                 Log.d("UnityData", "Richtung erkannt: Rechts (D)")
             }
 
             data.contains("W", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_straight)
+                distanceText.text = "Geradeaus" // Setze den Text auf "Geradeaus"
                 sendSignalToArduino("stopp") // Geradeaus-Signal
                 Log.d("UnityData", "Richtung erkannt: Geradeaus (W)")
             }
 
             data.contains("Stopp", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.logo_hs)
-                sendSignalToArduino("stopp") // Geradeaus-Signal
-                Log.d("UnityData", "stopp")
+                distanceText.text = "Stopp" // Setze den Text auf "Stopp"
+                sendSignalToArduino("stopp") // Stopp-Signal
+                Log.d("UnityData", "Richtung erkannt: Stopp")
             }
 
             else -> {
