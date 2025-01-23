@@ -6,7 +6,7 @@ import java.net.Socket;
 public class SocketClient {
     private Socket socket;
     private BufferedReader input;
-    private String serverIp = "192.168.0.100";  // IP-Adresse des PCs, auf dem Unity läuft
+    private String serverIp = "192.168.0.100";
     private int serverPort = 8888;
 
     public void start() {
