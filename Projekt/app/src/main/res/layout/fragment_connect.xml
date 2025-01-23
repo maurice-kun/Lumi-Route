@@ -1,69 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context=".fragments.ConnectFragment">
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/textConnectHelmet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="@string/connect_helmet"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textColor="@color/text_white"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnScanForDevices"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/scan_for_devices"
-        android:textColor="@android:color/white"
-        app:cornerRadius="5dp"
+    <ImageView
+        android:id="@+id/logoPlaceholder"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/logo_motorcycle_helmet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textConnectHelmet" />
 
     <Button
-        android:id="@+id/btnPair"
+        android:id="@+id/btnScanForDevices"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/blue"
-        android:text="@string/pair"
-        android:textColor="@android:color/white"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/blue_button"
+        android:minHeight="48dp"
+        android:text="@string/scan_for_devices"
+        android:textColor="@color/black"
         app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoPlaceholder" />
+
+    <ListView
+        android:id="@+id/deviceListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/text_white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnPair"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnScanForDevices" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnPair"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:backgroundTint="@color/gray"
-        android:text="@string/back"
-        android:textColor="@android:color/black"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/green_button"
+        android:minHeight="48dp"
+        android:text="@string/pair"
+        android:textColor="@color/black"
+        android:visibility="gone"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnPair" />
+        app:layout_constraintTop_toBottomOf="@id/deviceListView" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/black"
+        android:minHeight="48dp"
+        android:text="@string/back"
+        android:textColor="@color/text_white"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

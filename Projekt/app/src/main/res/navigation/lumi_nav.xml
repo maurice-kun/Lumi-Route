@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_testFragment"
+            app:destination="@id/testFragment" />
     </fragment>
     <fragment
         android:id="@+id/connectFragment"
@@ -69,6 +72,12 @@
         <action
             android:id="@+id/action_settingsFragment_to_lightSettingsFragment"
             app:destination="@id/lightSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_debugFragment"
+            app:destination="@id/debugFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_testFragment"
+            app:destination="@id/testFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"
@@ -105,5 +114,24 @@
         <action
             android:id="@+id/action_lightSettingsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugFragment"
+        android:name="hs.fl.lumiroute.fragments.DebugFragment"
+        android:label="DebugFragment">
+        <action
+            android:id="@+id/action_debugFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="hs.fl.lumiroute.fragments.TestFragment"
+        android:label="TestFragment">
+        <action
+            android:id="@+id/action_testFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

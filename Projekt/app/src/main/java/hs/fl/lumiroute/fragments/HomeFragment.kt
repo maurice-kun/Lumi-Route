@@ -1,4 +1,4 @@
-package hs.fl.lumiroute.fragments;
+package hs.fl.lumiroute.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import hs.fl.lumiroute.R
-
 
 class HomeFragment : Fragment() {
 
@@ -20,7 +19,7 @@ class HomeFragment : Fragment() {
 
         val buttonToNavigation = view.findViewById<Button>(R.id.btnStartNavigation)
         buttonToNavigation.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_navigationSettingsFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_testFragment)
         }
 
         val buttonToConnect = view.findViewById<Button>(R.id.btnConnectHelmet)

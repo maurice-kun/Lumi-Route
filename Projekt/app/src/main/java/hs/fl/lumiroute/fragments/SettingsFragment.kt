@@ -1,4 +1,4 @@
-package hs.fl.lumiroute.fragments;
+package hs.fl.lumiroute.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import hs.fl.lumiroute.R
-
 
 class SettingsFragment : Fragment() {
 
@@ -31,6 +30,16 @@ class SettingsFragment : Fragment() {
         val buttonLight = view.findViewById<Button>(R.id.btnLightSettings)
         buttonLight.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_lightSettingsFragment)
+        }
+
+        val buttonDebug = view.findViewById<Button>(R.id.btnDebug)
+        buttonDebug.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_debugFragment)
+        }
+
+        val buttonTest = view.findViewById<Button>(R.id.btnTest)
+        buttonTest.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_testFragment)
         }
 
         val buttonBack = view.findViewById<Button>(R.id.btnBack)

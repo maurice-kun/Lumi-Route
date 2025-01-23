@@ -2,8 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray">#e0e1dd</color>
-    <color name="blue">#a2d2ff</color>
-    <color name="red">#e63946</color>
-    <color name="green">#80ed99</color>
+    <color name="background_start">#0d1b2a</color>
+    <color name="background_end">#1b263b</color>
+    <color name="text_white">#e5e5e5</color>
+    <color name="white_button">#e5e5e5</color>
+    <color name="blue_button">#a8dadc</color>
+    <color name="red_button">#e07a5f</color>
+    <color name="green_button">#81b29a</color>
+
+    <color name="blue">#a8dadc</color>
+    <color name="red">#e07a5f</color>
+    <color name="green">#81b29a</color>
 </resources>
