@@ -15,7 +15,7 @@ public class ConnectThread extends Thread {
     private static final String TAG = "FrugalLogs";
     public static Handler handler;
     private static final int ERROR_READ = 0;
-    private static final int SUCCESS_CONNECT = 1; // Hinzugefügt für erfolgreichen Verbindungsstatus
+    private static final int SUCCESS_CONNECT = 1;
 
     @SuppressLint("MissingPermission")
     public ConnectThread(BluetoothDevice device, UUID MY_UUID, Handler handler) {
@@ -32,18 +32,15 @@ public class ConnectThread extends Thread {
 
     @SuppressLint("MissingPermission")
     public void run() {
-        // Verwende Looper, um sicherzustellen, dass der Handler auf dem Haupt-Thread läuft
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
 
         try {
             mmSocket.connect();
-            // Verbindung erfolgreich - sende Nachricht zurück
             handler.obtainMessage(SUCCESS_CONNECT, "Connected to the BT device").sendToTarget();
             Log.i(TAG, "Connection established");
 
-            // Starte den ConnectedThread
             LumiApplication.getApplication().setupConnectedThread(new ConnectedThread(mmSocket));
 
         } catch (IOException connectException) {

@@ -27,14 +27,14 @@ class TestFragment : Fragment() {
 
     // Bluetooth-Thread
     private val connectedThread = LumiApplication.getApplication().getCurrentConnectedThread()
-    private var lastDirection: String = "" // Speichert die zuletzt erkannte Richtung
+    private var lastDirection: String = ""
 
-    // Pfad zur Datei im App-spezifischen Speicher
+    // Pfad zur Datei
     private val filePathOnAndroid: String
         get() = requireContext().getExternalFilesDir(null)?.absolutePath + "/navigation_data.txt"
 
-    private val checkInterval = 1000L // Intervall in Millisekunden (z. B. 1 Sekunde)
-    private var lastTimestamp: String = "" // Speichert den zuletzt verarbeiteten Timestamp
+    private val checkInterval = 1000L
+    private var lastTimestamp: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +43,9 @@ class TestFragment : Fragment() {
         Log.d("TestFragment", "onCreateView aufgerufen")
         val view = inflater.inflate(R.layout.fragment_test, container, false)
 
-        // Initialisiere UI-Elemente
         directionArrow = view.findViewById(R.id.directionArrow)
         distanceText = view.findViewById(R.id.distanceText)
 
-        // Prüfe Berechtigungen
         if (hasManageExternalStoragePermission()) {
             Log.d("Permissions", "Berechtigungen bereits erteilt.")
             startFileMonitoring()
@@ -70,11 +68,11 @@ class TestFragment : Fragment() {
         val runnable = object : Runnable {
             override fun run() {
                 Log.d("FileMonitor", "Überprüfe Datei: $filePathOnAndroid")
-                readLocalFile(filePathOnAndroid) // Datei lesen und verarbeiten
+                readLocalFile(filePathOnAndroid)
                 handler.postDelayed(
                     this,
                     checkInterval
-                ) // Wiederholung alle `checkInterval` Millisekunden
+                )
             }
         }
         handler.post(runnable)
@@ -114,29 +112,29 @@ class TestFragment : Fragment() {
         when {
             data.contains("A", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_left)
-                distanceText.text = "Links" // Setze den Text auf "Links"
-                sendSignalToArduino("l") // Links-Signal
+                distanceText.text = "Links"
+                sendSignalToArduino("l")
                 Log.d("UnityData", "Richtung erkannt: Links (A)")
             }
 
             data.contains("D", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_right)
-                distanceText.text = "Rechts" // Setze den Text auf "Rechts"
-                sendSignalToArduino("r") // Rechts-Signal
+                distanceText.text = "Rechts"
+                sendSignalToArduino("r")
                 Log.d("UnityData", "Richtung erkannt: Rechts (D)")
             }
 
             data.contains("W", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.ic_arrow_straight)
-                distanceText.text = "Geradeaus" // Setze den Text auf "Geradeaus"
-                sendSignalToArduino("stopp") // Geradeaus-Signal
+                distanceText.text = "Geradeaus"
+                sendSignalToArduino("stopp")
                 Log.d("UnityData", "Richtung erkannt: Geradeaus (W)")
             }
 
             data.contains("Stopp", ignoreCase = true) -> {
                 directionArrow.setImageResource(R.drawable.logo_hs)
-                distanceText.text = "Stopp" // Setze den Text auf "Stopp"
-                sendSignalToArduino("stopp") // Stopp-Signal
+                distanceText.text = ""
+                sendSignalToArduino("stopp")
                 Log.d("UnityData", "Richtung erkannt: Stopp")
             }
 
@@ -161,9 +159,9 @@ class TestFragment : Fragment() {
         return if (parts.size == 2) {
             val dataParts = parts[1].split(":")
             val navigationHint = if (dataParts.size > 1) dataParts[1].trim() else ""
-            parts[0] to navigationHint // Timestamp und Daten nach dem Doppelpunkt
+            parts[0] to navigationHint
         } else {
-            "" to content // Falls das Format nicht stimmt
+            "" to content
         }
     }
 
@@ -172,7 +170,7 @@ class TestFragment : Fragment() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
         } else {
-            true // Für ältere Android-Versionen
+            true
         }
     }
 
@@ -193,7 +191,6 @@ class TestFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Überprüfe Berechtigung, wenn der Nutzer zurückkommt
         if (hasManageExternalStoragePermission()) {
             Log.d("Permissions", "Berechtigungen erteilt. Starte Dateiüberwachung.")
             startFileMonitoring()

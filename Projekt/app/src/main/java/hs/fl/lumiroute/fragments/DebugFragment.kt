@@ -29,25 +29,24 @@ class DebugFragment : Fragment() {
                 .show()
         }
 
-        // Button-Referenzen und OnClickListener hinzufügen
         val buttonLeft = view.findViewById<Button>(R.id.btnBlinkLeft)
         buttonLeft.setOnClickListener {
-            sendSignalToArduino("l") // Signal für Blinken links
+            sendSignalToArduino("l")
         }
 
         val buttonRight = view.findViewById<Button>(R.id.btnBlinkRight)
         buttonRight.setOnClickListener {
-            sendSignalToArduino("r") // Signal für Blinken rechts
+            sendSignalToArduino("r")
         }
 
         val buttonWarn = view.findViewById<Button>(R.id.btnWarningLights)
         buttonWarn.setOnClickListener {
-            sendSignalToArduino("w") // Signal für Warnblinker
+            sendSignalToArduino("w")
         }
 
         val buttonDisconnect = view.findViewById<Button>(R.id.btnDisconnect)
         buttonDisconnect.setOnClickListener {
-            sendSignalToArduino("d") // Signal für Verbindungsverlust (Rotlicht links/rechts)
+            sendSignalToArduino("d")
         }
 
         val buttonStop = view.findViewById<Button>(R.id.btnStop)

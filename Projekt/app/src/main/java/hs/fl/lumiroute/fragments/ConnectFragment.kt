@@ -63,7 +63,7 @@ class ConnectFragment : Fragment() {
         private const val TAG = "ConnectFragment"
         private const val REQUEST_ENABLE_BT = 1
         private const val REQUEST_PERMISSIONS = 2
-        private const val ERROR_READ = 0 // used in Bluetooth handler to identify message update
+        private const val ERROR_READ = 0
     }
 
     @SuppressLint("MissingPermission")

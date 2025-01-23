@@ -15,7 +15,7 @@ public class ConnectedThread extends Thread {
     private final InputStream mmInStream;
     private final OutputStream mmOutStream;
     private String valueRead;
-    private volatile boolean isRunning = true; // Hinzugefügt, um den Thread sicher zu stoppen
+    private volatile boolean isRunning = true;
     private Handler handler;
 
     public InputStream getMmInStream() {
@@ -84,7 +84,7 @@ public class ConnectedThread extends Thread {
     }
 
     public void cancel() {
-        isRunning = false; // Setzt die Laufbedingung auf false, um den Thread zu beenden
+        isRunning = false;
         try {
             mmSocket.close();
             Log.i(TAG, "Socket closed");

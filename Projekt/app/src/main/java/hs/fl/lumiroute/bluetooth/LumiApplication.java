@@ -18,10 +18,10 @@ public class LumiApplication extends Application {
 
     public synchronized void setupConnectedThread(ConnectedThread thread) {
         if (connectedThread != null) {
-            connectedThread.cancel(); // Vorherigen Thread schließen
+            connectedThread.cancel();
         }
         connectedThread = thread;
-        connectedThread.start(); // Starte den neuen Thread
+        connectedThread.start();
     }
 
     public synchronized ConnectedThread getCurrentConnectedThread() {
