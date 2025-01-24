@@ -55,4 +55,11 @@ LumiRoute ist eine Navigationslösung für Motorradfahrer, die mithilfe von LEDs
 
 ---
 
+## Credits
+
+Während der Entwicklung von LumiRoute hat das folgende Projekt als Inspiration und Grundlage gedient:
+- [Arduino Bluetooth LED Control Beispiel](https://github.com/The-Frugal-Engineer/ArduinoBTExampleLEDControl) von The-Frugal-Engineer.
+
+---
+
 Vielen Dank, dass du LumiRoute unterstützt! 🚴‍♂️💡
