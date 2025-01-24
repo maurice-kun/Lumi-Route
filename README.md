@@ -28,7 +28,7 @@ LumiRoute ist eine Navigationslösung für Motorradfahrer, die mithilfe von LEDs
 3. Öffne die App, wähle „Helm verbinden“ und plane deine Route.
 
 ### Für Entwickler
-1. Klone dieses Repository:
+1. Klone dieses Repository.
 2. Öffne das Projekt in Android Studio.
 3. Stelle sicher, dass alle Abhängigkeiten korrekt geladen sind.
 4. Nutze ein physisches Android-Gerät für Tests (Emulator unterstützt keine Bluetooth-Funktionen).
