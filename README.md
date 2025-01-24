@@ -29,9 +29,6 @@ LumiRoute ist eine Navigationslösung für Motorradfahrer, die mithilfe von LEDs
 
 ### Für Entwickler
 1. Klone dieses Repository:
-   ```bash
-   git clone https://github.com/USERNAME/LumiRoute.git
-   ```
 2. Öffne das Projekt in Android Studio.
 3. Stelle sicher, dass alle Abhängigkeiten korrekt geladen sind.
 4. Nutze ein physisches Android-Gerät für Tests (Emulator unterstützt keine Bluetooth-Funktionen).
